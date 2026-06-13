@@ -3,6 +3,11 @@ name: Docker Build and Release
 on:
   release:
     types: [published]
+  push:
+    branches: [main, master]
+    paths:
+      - 'docker/**'
+      - '.github/workflows/ci_docker_fish.yaml'
 
 env:
   REGISTRY: ghcr.io
@@ -53,12 +58,10 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        # 👇 修正了这里：指向 ./docker/Dockerfile
         file: ./docker/Dockerfile
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        # 👇 确保包含 linux/arm64
         platforms: linux/amd64,linux/arm64
