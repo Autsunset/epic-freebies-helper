@@ -14,7 +14,7 @@ ENV DISPLAY=:99 \
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-cache --all-extras
+    uv sync --no-cache --all-extras
 
 # Install system packages, including unzip for the manual installation
 RUN apt-get update -y && \
